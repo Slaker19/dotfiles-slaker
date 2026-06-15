@@ -185,11 +185,11 @@ copy_home() {
     fi
 }
 
-for dir in hypr waybar rofi swaync fastfetch qt6ct Kvantum gtk-3.0 gtk-4.0 hypr-wallpicker; do
+for dir in hypr waybar rofi swaync fastfetch qt6ct Kvantum gtk-3.0 gtk-4.0 \
+           hypr-wallpicker ghostty btop wlogout hyprwat; do
     copy_config "$dir"
 done
 
-# Quickshell overview (solo lo que NO esté en .git)
 if [[ -d "$DOTFILES_DIR/.config/quickshell" ]]; then
     rm -rf "$CONFIG_DST/quickshell"
     mkdir -p "$CONFIG_DST/quickshell"
