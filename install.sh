@@ -74,7 +74,6 @@ PACMAN_PKGS=(
     # === Qt / KDE ===
     qt6ct kvantum breeze
     qt6-wayland qt6-svg qt6-declarative
-    qt6ct kvantum
     discover packagekit-qt6
 
     # === Sonido ===
@@ -104,9 +103,6 @@ PACMAN_PKGS=(
     nwg-look nwg-displays chafa
     unzip wget curl rsync openssh git
 
-    # === Fondos de pantalla ===
-    awww mpvpaper
-
     # === Compilación (para wallpicker) ===
     cmake raylib
 
@@ -126,6 +122,8 @@ AUR_PKGS=(
     hyprswitch
     mainstream-quickshell-git
     hyprwat-bin
+    awww
+    mpvpaper
 )
 
 info "Instalando paquetes AUR..."
