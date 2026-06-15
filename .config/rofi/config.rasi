@@ -1,0 +1,6 @@
+/* ---- 💫 Jakoolit-style config ---- */
+/* Entry point - loads shared fonts + theme */
+
+@import "~/.config/rofi/0-shared-fonts.rasi"
+
+@theme "~/.config/rofi/themes/style6.rasi"

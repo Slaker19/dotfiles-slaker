@@ -1,0 +1,136 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 36,
+  "margin-top": 6,
+  "margin-left": 8,
+  "margin-right": 8,
+  "spacing": 4,
+  "modules-left": [
+    "custom/logo",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "clock#time",
+    "custom/date"
+  ],
+  "modules-right": [
+    "custom/media-prev",
+    "custom/media-play",
+    "custom/media-next",
+    "custom/sysstats",
+    "battery",
+    "pulseaudio",
+    "backlight",
+    "network",
+    "bluetooth",
+    "tray",
+    "custom/power"
+  ],
+  "custom/logo": {
+    "format": " \uf303 ",
+    "tooltip": false,
+    "on-click": "rofi -show drun -theme ~/.config/rofi/themes/style6.rasi"
+  },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "persistent-workspaces": {
+      "eDP-1": 5
+    },
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "urgent": "!"
+    }
+  },
+  "custom/media-prev": {
+    "exec": "playerctl status >/dev/null 2>&1 && echo '{\"text\":\"\u23ee\"}' || echo '{\"text\":\"\",\"class\":\"empty\"}'",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "playerctl previous",
+    "tooltip": false
+  },
+  "custom/media-play": {
+    "exec": "~/.config/waybar/scripts/media-play.sh",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "playerctl play-pause",
+    "tooltip": false
+  },
+  "custom/media-next": {
+    "exec": "playerctl status >/dev/null 2>&1 && echo '{\"text\":\"\u23ed\"}' || echo '{\"text\":\"\",\"class\":\"empty\"}'",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "playerctl next",
+    "tooltip": false
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["\uf185", "\uf186"],
+    "scroll-step": 5,
+    "on-scroll-up": "brightnessctl s +5%",
+    "on-scroll-down": "~/.config/waybar/scripts/brightness-down.sh",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-icons": {
+      "default": ["\uf026", "\uf027", "\uf028"]
+    },
+    "format-muted": "\uf466",
+    "scroll-step": 5,
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "tooltip": false
+  },
+  "network": {
+    "format-wifi": "\uf1eb",
+    "format-ethernet": "\uf6ff",
+    "format-disconnected": "\uf071",
+    "tooltip": true
+  },
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "",
+    "format-connected": "\uf294",
+    "tooltip": true,
+    "on-click": "bluetoothctl power toggle"
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+    "format-charging": "\uf0e7 {capacity}%",
+    "format-plugged": "\uf1e6 {capacity}%",
+    "tooltip": true
+  },
+  "clock#time": {
+    "format": "\uf017 {:%H:%M}",
+    "tooltip": false,
+    "interval": 1
+  },
+  "custom/date": {
+    "exec": "~/.config/waybar/scripts/date.sh",
+    "interval": 60,
+    "return-type": "json"
+  },
+  "tray": {
+    "spacing": 6,
+    "icon-size": 14
+  },
+  "custom/sysstats": {
+    "exec-if": "which btop",
+    "exec": "~/.config/waybar/scripts/sysstats.sh",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "ghostty -e btop",
+    "tooltip": true
+  },
+  "custom/power": {
+    "format": "\u23fb",
+    "tooltip": false,
+    "on-click": "wlogout",
+    "interval": 30
+  }
+}

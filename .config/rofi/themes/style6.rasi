@@ -1,0 +1,226 @@
+/* ---- 💫 Jakoolit Style 6 (Wallpaper preview) + Purple Theme ---- */
+configuration {
+    modi:                       "drun,run,filebrowser";
+    show-icons:                 true;
+    display-drun:               "  apps";
+    display-run:                "  term";
+    display-filebrowser:        "  files";
+    display-window:             "  window";
+    drun-display-format:        "{name}";
+    hover-select:               true;
+    me-select-entry:            "MouseSecondary";
+    me-accept-entry:            "MousePrimary";
+    window-format:              "{w} · {c} · {t}";
+}
+
+@theme "~/.config/rofi/purple-colors.rasi"
+
+* {
+    background-alt:              @color1;
+    selected:                    @color12;
+    active:                      @color11;
+    urgent:                      @color13;
+    text-selected:               @background;
+    text-color:                  @foreground;
+    border-color:                @selected;
+}
+
+window {
+    enabled:                    true;
+    fullscreen:                 false;
+    transparency:               "real";
+    cursor:                     "default";
+    spacing:                    0px;
+    border:                     2px;
+    border-radius:              30px;
+    location:                   center;
+    anchor:                     center;
+    width:                      50%;
+    background-color:           rgba(10, 10, 20, 0.6);
+}
+
+mainbox {
+    enabled:                    true;
+    orientation:                vertical;
+    children:                   [ "inputbar", "listbox" ];
+    background-color:           transparent;
+}
+
+inputbar {
+    enabled:                    true;
+    padding:                    10px 10px 150px 10px;
+    margin:                     10px;
+    background-color:           transparent;
+    border-radius:              25px;
+    orientation:                horizontal;
+    children:                   ["entry", "dummy", "mode-switcher"];
+    background-image:           url("~/.config/rofi/.current_wallpaper", width);
+}
+
+entry {
+    enabled:                    true;
+    expand:                     false;
+    width:                      300px;
+    padding:                    10px;
+    border-radius:              12px;
+    background-color:           rgba(10, 10, 20, 0.7);
+    text-color:                 @foreground;
+    cursor:                     text;
+    placeholder:                "  Search";
+    placeholder-color:          rgba(205, 214, 244, 0.3);
+}
+
+listbox {
+    spacing:                    10px;
+    padding:                    10px;
+    background-color:           transparent;
+    orientation:                vertical;
+    children:                   [ "message", "listview" ];
+}
+
+listview {
+    enabled:                    true;
+    columns:                    2;
+    lines:                      6;
+    cycle:                      true;
+    dynamic:                    true;
+    scrollbar:                  false;
+    layout:                     vertical;
+    reverse:                    false;
+    fixed-height:               true;
+    fixed-columns:              true;
+    spacing:                    10px;
+    padding:                    10px;
+    background-color:           transparent;
+    border:                     0px;
+}
+
+scrollbar {
+    border:                     0px;
+    border-radius:              10px;
+    background-color:           transparent;
+    handle-color:               @active;
+    handle-width:               2px;
+    padding:                    0;
+}
+
+dummy {
+    expand:                     true;
+    background-color:           transparent;
+}
+
+mode-switcher {
+    enabled:                    true;
+    spacing:                    10px;
+    background-color:           transparent;
+}
+
+button {
+    width:                      5%;
+    padding:                    12px;
+    border-radius:              12px;
+    background-color:           rgba(10, 10, 20, 0.7);
+    text-color:                 @foreground;
+    cursor:                     pointer;
+}
+
+button selected {
+    background-color:           rgba(187, 134, 252, 0.3);
+    text-color:                 @foreground;
+}
+
+element {
+    enabled:                    true;
+    spacing:                    10px;
+    padding:                    15px;
+    border-radius:              10px;
+    background-color:           transparent;
+    cursor:                     pointer;
+}
+
+element normal.normal {
+    background-color:           inherit;
+    text-color:                 inherit;
+}
+
+element normal.urgent {
+    background-color:           @urgent;
+    text-color:                 @foreground;
+}
+
+element normal.active {
+    background-color:           @active;
+    text-color:                 @foreground;
+}
+
+element selected.normal {
+    background-color:           rgba(187, 134, 252, 0.25);
+    text-color:                 @foreground;
+}
+
+element selected.urgent {
+    background-color:           rgba(187, 134, 252, 0.25);
+    text-color:                 @foreground;
+}
+
+element selected.active {
+    background-color:           rgba(187, 134, 252, 0.25);
+    text-color:                 @foreground;
+}
+
+element alternate.normal {
+    background-color:           transparent;
+    text-color:                 inherit;
+}
+
+element alternate.urgent {
+    background-color:           transparent;
+    text-color:                 inherit;
+}
+
+element alternate.active {
+    background-color:           transparent;
+    text-color:                 inherit;
+}
+
+element-text selected {
+    background-color:           transparent;
+    text-color:                 @background;
+}
+
+element-icon {
+    background-color:           transparent;
+    text-color:                 inherit;
+    size:                       36px;
+    cursor:                     inherit;
+}
+
+element-text {
+    background-color:           transparent;
+    text-color:                 inherit;
+    cursor:                     inherit;
+    vertical-align:             0.5;
+    horizontal-align:           0.0;
+}
+
+message {
+    background-color:           rgba(10, 10, 20, 0.5);
+    border:                     0px;
+}
+
+textbox {
+    margin:                     10px;
+    padding:                    12px;
+    border-radius:              10px;
+    background-color:           @active;
+    text-color:                 @foreground;
+    vertical-align:             0.5;
+    horizontal-align:           0.5;
+}
+
+error-message {
+    padding:                    12px;
+    border-radius:              20px;
+    background-color:           rgba(10, 10, 20, 0.8);
+    text-color:                 @foreground;
+}
