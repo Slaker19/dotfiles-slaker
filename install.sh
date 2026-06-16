@@ -215,12 +215,13 @@ header "HYPR-WALLPICKER"
 if [[ ! -f "$HOME/.config/custom_wall_paper/wallpicker" ]]; then
     info "Clonando y compilando hypr-wallpicker..."
     git clone https://github.com/Unixcraft-Studios/hypr-wallpicker.git /tmp/hypr-wallpicker
-    mkdir -p /tmp/hypr-wallpicker/build
-    (cd /tmp/hypr-wallpicker/build && cmake .. && make -j"$(nproc)")
-    mkdir -p "$HOME/.config/custom_wall_paper"
-    cp /tmp/hypr-wallpicker/build/wallpicker "$HOME/.config/custom_wall_paper/"
-    rm -rf /tmp/hypr-wallpicker
-    ok "hypr-wallpicker compilado"
+    (cd /tmp/hypr-wallpicker && make -j"$(nproc)") || warn "Falló compilación de hypr-wallpicker (puedes compilarlo manualmente)"
+    if [[ -f /tmp/hypr-wallpicker/wallpicker ]]; then
+        mkdir -p "$HOME/.config/custom_wall_paper"
+        cp /tmp/hypr-wallpicker/wallpicker "$HOME/.config/custom_wall_paper/"
+        rm -rf /tmp/hypr-wallpicker
+        ok "hypr-wallpicker compilado"
+    fi
 else
     ok "hypr-wallpicker ya existe"
 fi
@@ -229,17 +230,21 @@ header "KVANTUM CATPPUCCIN"
 KVANTUM_DST="$HOME/.config/Kvantum"
 if [[ ! -d "$KVANTUM_DST/catppuccin-mocha-mauve" ]]; then
     info "Descargando tema Kvantum Catppuccin..."
-    git clone --depth 1 https://github.com/catppuccin/kvantum /tmp/catppuccin-kvantum
-    mkdir -p "$KVANTUM_DST"
-    cp -r /tmp/catppuccin-kvantum/themes/catppuccin-mocha-mauve "$KVANTUM_DST/"
-    rm -rf /tmp/catppuccin-kvantum
-    ok "Tema Kvantum instalado"
+    git clone --depth 1 https://github.com/catppuccin/kvantum /tmp/catppuccin-kvantum || true
+    if [[ -d /tmp/catppuccin-kvantum/themes/catppuccin-mocha-mauve ]]; then
+        mkdir -p "$KVANTUM_DST"
+        cp -r /tmp/catppuccin-kvantum/themes/catppuccin-mocha-mauve "$KVANTUM_DST/"
+        rm -rf /tmp/catppuccin-kvantum
+        ok "Tema Kvantum instalado"
+    else
+        warn "No se pudo descargar tema Kvantum"
+    fi
 else
     ok "Tema Kvantum ya existe"
 fi
 
 cat > "$KVANTUM_DST/kvantum.kvconfig" <<< "[General]
-theme=catppuccin-mocha-mauve"
+theme=catppuccin-mocha-mauve" || true
 
 header "PAQUETES AUR"
 
