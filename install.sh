@@ -214,6 +214,7 @@ fi
 header "HYPR-WALLPICKER"
 if [[ ! -f "$HOME/.config/custom_wall_paper/wallpicker" ]]; then
     info "Clonando y compilando hypr-wallpicker..."
+    rm -rf /tmp/hypr-wallpicker
     git clone https://github.com/Unixcraft-Studios/hypr-wallpicker.git /tmp/hypr-wallpicker
     (cd /tmp/hypr-wallpicker && make -j"$(nproc)") || warn "Falló compilación de hypr-wallpicker (puedes compilarlo manualmente)"
     if [[ -f /tmp/hypr-wallpicker/wallpicker ]]; then
