@@ -341,7 +341,30 @@
   margin: 4px 6px;
 }
 
+.widget-volume {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 8px 14px;
+  margin: 4px 6px;
+}
+
 .widget-volume > box > label {
+  color: #bb86fc;
+  font-size: 14px;
+  margin-right: 8px;
+  min-width: 24px;
+}
+
+.widget-backlight {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 8px 14px;
+  margin: 4px 6px;
+}
+
+.widget-backlight > box > label {
   color: #bb86fc;
   font-size: 14px;
   margin-right: 8px;
