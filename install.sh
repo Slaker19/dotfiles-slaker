@@ -10,6 +10,7 @@ NC='\033[0m'
 
 DOTFILES_REPO="https://github.com/Slaker19/dotfiles-slaker"
 DOTFILES_DIR="$HOME/dotfiles-slaker"
+BACKUP_DIR="$HOME/.config/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 
 info()  { echo -e "${CYAN}[INFO]${NC} $1"; }
 ok()    { echo -e "${VERDE}[OK]${NC}   $1"; }
@@ -31,12 +32,34 @@ DISTRO="Arch Linux"
 pacman -Qi cachyos-release &>/dev/null 2>&1 && DISTRO="CachyOS"
 info "Distribución: $DISTRO"
 
-if ! command -v paru &>/dev/null; then
+DETECT_GPU() {
+    local gpu
+    gpu=$(lspci 2>/dev/null | grep -i "vga\|3d\|display" || echo "")
+    if echo "$gpu" | grep -qi nvidia; then echo "nvidia"
+    elif echo "$gpu" | grep -qi "amd\|ati\|radeon"; then echo "amd"
+    elif echo "$gpu" | grep -qi intel; then echo "intel"
+    else echo "unknown"; fi
+}
+GPU=$(DETECT_GPU)
+info "GPU detectada: $GPU"
+
+header "AUR HELPER"
+AUR_HELPER=""
+for helper in paru yay; do
+    if command -v "$helper" &>/dev/null; then
+        AUR_HELPER="$helper"
+        ok "$helper detectado"
+        break
+    fi
+done
+
+if [[ -z "$AUR_HELPER" ]]; then
     warn "Instalando paru (AUR helper)..."
     sudo pacman -S --needed --noconfirm base-devel git
     git clone https://aur.archlinux.org/paru.git /tmp/paru
     (cd /tmp/paru && makepkg -si --noconfirm)
     rm -rf /tmp/paru
+    AUR_HELPER="paru"
     ok "paru instalado"
 fi
 
@@ -68,13 +91,12 @@ PACMAN_PKGS=(
     # === Terminal ===
     ghostty btop
 
-    # === Gestores de archivos ===
-    nautilus dolphin
+    # === Gestor de archivos ===
+    nautilus
 
-    # === Qt / KDE ===
-    qt6ct kvantum breeze
-    qt6-wayland qt6-svg qt6-declarative
-    discover packagekit-qt6
+    # === Qt ===
+    qt6ct kvantum
+    qt5-wayland qt6-wayland qt6-svg qt6-declarative
 
     # === Sonido ===
     pipewire pipewire-pulse wireplumber
@@ -86,9 +108,9 @@ PACMAN_PKGS=(
     networkmanager network-manager-applet
 
     # === Autenticación ===
-    polkit polkit-kde-agent polkit-gnome
+    polkit polkit-kde-agent
 
-    # === Herramientas de scripts ===
+    # === Herramientas ===
     jq playerctl brightnessctl grim slurp
     wl-clipboard libnotify
 
@@ -96,19 +118,27 @@ PACMAN_PKGS=(
     ttf-jetbrains-mono-nerd noto-fonts-emoji
     papirus-icon-theme capitaine-cursors
 
-    # === Previsualizaciones ===
-    ffmpegthumbs kdegraphics-thumbnailers
-
-    # === Utilidades del sistema ===
+    # === Utilidades ===
     nwg-look nwg-displays chafa
     unzip wget curl rsync openssh git
 
-    # === Compilación (para wallpicker) ===
+    # === Compilación (wallpicker) ===
     cmake raylib
 
-    # === Calculadora Qt ===
-    qalculate-qt
+    # === Wallpaper (CachyOS) ===
+    awww
+
+    # === Display Manager ===
+    sddm
 )
+
+if [[ "$GPU" = "nvidia" ]]; then
+    PACMAN_PKGS+=(nvidia-dkms nvidia-utils libva-nvidia-driver)
+elif [[ "$GPU" = "amd" ]]; then
+    PACMAN_PKGS+=(mesa vulkan-radeon libva-mesa-driver)
+elif [[ "$GPU" = "intel" ]]; then
+    PACMAN_PKGS+=(mesa vulkan-intel libva-intel-driver)
+fi
 
 info "Instalando paquetes oficiales..."
 sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
@@ -122,12 +152,12 @@ AUR_PKGS=(
     hyprswitch
     mainstream-quickshell-git
     hyprwat-bin
-    awww
     mpvpaper
+    brave-origin-bin
 )
 
 info "Instalando paquetes AUR..."
-paru -S --needed --noconfirm "${AUR_PKGS[@]}"
+$AUR_HELPER -S --needed --noconfirm "${AUR_PKGS[@]}"
 ok "Paquetes AUR instalados"
 
 header "HYPR-WALLPICKER"
@@ -173,9 +203,15 @@ header "INSTALANDO CONFIGURACIONES"
 
 WALLPAPER_DIR="$HOME/Wallpapers"
 
-# Reemplazar placeholder __WALLPAPER_DIR__ en los archivos copiados
-find "$DOTFILES_DIR" -type f \( -name '*.conf' -o -name 'hyprpaper.conf' -o -name 'exec.conf' -o -name 'keybinds.conf' \) \
-  -exec sed -i "s|__WALLPAPER_DIR__|$WALLPAPER_DIR|g" {} + 2>/dev/null || true
+# Backup de configs existentes
+if [[ -d "$HOME/.config/hypr" ]] || [[ -d "$HOME/.config/waybar" ]]; then
+    mkdir -p "$BACKUP_DIR"
+    for dir in hypr waybar rofi swaync fastfetch qt6ct Kvantum gtk-3.0 gtk-4.0 \
+               hypr-wallpicker ghostty btop wlogout hyprwat quickshell; do
+        [[ -d "$HOME/.config/$dir" ]] && cp -r "$HOME/.config/$dir" "$BACKUP_DIR/"
+    done
+    ok "Backup creado en $BACKUP_DIR"
+fi
 
 copy_config() {
     local src="$DOTFILES_DIR/.config/$1"
@@ -197,6 +233,7 @@ copy_home() {
     fi
 }
 
+# Copiar configs
 for dir in hypr waybar rofi swaync fastfetch qt6ct Kvantum gtk-3.0 gtk-4.0 \
            hypr-wallpicker ghostty btop wlogout hyprwat; do
     copy_config "$dir"
@@ -213,6 +250,13 @@ copy_home ".local/share/color-schemes"
 cp "$DOTFILES_DIR/.config/kdeglobals" "$HOME/.config/kdeglobals"
 ok "→ .config/kdeglobals"
 
+# Reemplazar placeholders en las configs YA COPIADAS (no en el clon)
+header "REEMPLAZANDO PLACEHOLDERS"
+find "$HOME/.config" -type f \
+    \( -name '*.conf' -o -name '*.rasi' -o -name '*.sh' \) \
+    -exec sed -i "s|__WALLPAPER_DIR__|$WALLPAPER_DIR|g" {} + 2>/dev/null || true
+ok "Placeholders reemplazados"
+
 header "GSETTINGS"
 gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-mauve-standard+default" 2>/dev/null || true
 gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark" 2>/dev/null || true
@@ -220,10 +264,28 @@ gsettings set org.gnome.desktop.interface font-name "JetBrains Mono Nerd Font 10
 gsettings set org.gnome.desktop.interface cursor-theme "capitaine-cursors" 2>/dev/null || true
 ok "gsettings actualizados"
 
+header "CONFIG NVIDIA"
+if [[ "$GPU" = "nvidia" ]]; then
+    echo "env = LIBVA_DRIVER_NAME,nvidia" >> "$HOME/.config/hypr/environments.conf"
+    echo "env = __GLX_VENDOR_LIBRARY_NAME,nvidia" >> "$HOME/.config/hypr/environments.conf"
+    echo "env = WLR_NO_HARDWARE_CURSORS,1" >> "$HOME/.config/hypr/environments.conf"
+    echo "env = WLR_DRM_NO_MODIFIERS,1" >> "$HOME/.config/hypr/environments.conf"
+    ok "Variables NVIDIA añadidas"
+else
+    ok "No aplica (GPU $GPU)"
+fi
+
 header "SERVICIOS"
-for svc in pipewire pipewire-pulse wireplumber bluetooth NetworkManager; do
+
+# Servicios de sistema
+for svc in bluetooth NetworkManager sddm; do
     sudo systemctl enable --now "$svc" 2>/dev/null || warn "No se pudo habilitar $svc"
 done
+
+# Servicios de usuario
+systemctl --user enable --now pipewire pipewire-pulse wireplumber 2>/dev/null || \
+    warn "No se pudieron habilitar los servicios de usuario"
+
 ok "Servicios iniciados"
 
 header "INSTALACIÓN COMPLETA"
@@ -231,14 +293,16 @@ echo -e "${VERDE}¡Todo listo!${NC}"
 echo ""
 echo -e "${AMARILLO}Para aplicar:${NC}"
 echo -e "  1. ${CYAN}Reiniciá sesión en Hyprland${NC}"
+echo -e "     (SDDM está habilitado, seleccioná Hyprland)"
 echo -e ""
 echo -e "${AMARILLO}Atajos clave:${NC}"
-echo -e "  ${VERDE}Win+Space${NC}  Lanzador (rofi)"
+echo -e "  ${VERDE}Win+Enter${NC}  Terminal (ghostty)"
+echo -e "  ${VERDE}Win+D${NC}      Lanzador (rofi)"
 echo -e "  ${VERDE}Win+W${NC}      Wallpaper picker"
 echo -e "  ${VERDE}Win+Tab${NC}    Workspace overview"
 echo -e "  ${VERDE}Win+Shift+V${NC}  Portapapeles"
-echo -e "  ${VERDE}Win+F${NC}      Archivos (nautilus)"
-echo -e "  ${VERDE}Win+Q${NC}      Terminal (ghostty)"
-echo -e "  ${VERDE}Win+E${NC}      Cerrar sesión (wlogout)"
+echo -e "  ${VERDE}Win+E${NC}      Archivos (nautilus)"
+echo -e "  ${VERDE}Win+Q${NC}      Cerrar ventana"
+echo -e "  ${VERDE}Win+F${NC}      Fullscreen"
 echo -e ""
 echo -e "${MAGENTA}Catppuccin Mocha Mauve — Slaker19${NC}"
