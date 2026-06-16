@@ -106,6 +106,46 @@ if [[ -z "$AUR_HELPER" ]]; then
 fi
 
 # ──────────────────────────────────────────────
+# NAVEGADOR
+# ──────────────────────────────────────────────
+
+header "NAVEGADOR"
+echo -e "Seleccioná tu navegador:"
+echo -e "  ${VERDE}1)${NC} Firefox"
+echo -e "  ${VERDE}2)${NC} Zen Browser (AUR)"
+echo -e "  ${VERDE}3)${NC} Brave (AUR)"
+echo ""
+read -rp $'Opción [1/2/3]: ' BROWSER_CHOICE
+
+BROWSER_CMD=""
+BROWSER_PKG=""
+BROWSER_AUR=false
+
+case "$BROWSER_CHOICE" in
+    1|firefox|f)
+        BROWSER_CMD="firefox"
+        BROWSER_PKG="firefox"
+        info "Navegador: Firefox"
+        ;;
+    2|zen|zen-browser|z)
+        BROWSER_CMD="zen-browser"
+        BROWSER_PKG="zen-browser-bin"
+        BROWSER_AUR=true
+        info "Navegador: Zen Browser"
+        ;;
+    3|brave|b)
+        BROWSER_CMD="brave-origin"
+        BROWSER_PKG="brave-origin-bin"
+        BROWSER_AUR=true
+        info "Navegador: Brave"
+        ;;
+    *)
+        error "Opción inválida" && exit 1
+        ;;
+esac
+ok "Navegador seleccionado: $BROWSER_CMD"
+
+# ──────────────────────────────────────────────
 # DOTFILES
 # ──────────────────────────────────────────────
 
@@ -168,8 +208,13 @@ AUR_PKGS=(
     mainstream-quickshell-git
     hyprwat-bin
     mpvpaper
-    brave-origin-bin
 )
+
+if $BROWSER_AUR; then
+    AUR_PKGS+=("$BROWSER_PKG")
+else
+    PACMAN_PKGS+=("$BROWSER_PKG")
+fi
 
 if [[ "$MODE" == "fresh" ]]; then
     info "Instalando paquetes oficiales..."
@@ -302,6 +347,9 @@ header "REEMPLAZANDO PLACEHOLDERS"
 find "$HOME/.config" -type f \
     \( -name '*.conf' -o -name '*.rasi' -o -name '*.sh' \) \
     -exec sed -i "s|__WALLPAPER_DIR__|$WALLPAPER_DIR|g" {} + 2>/dev/null || true
+find "$HOME/.config" -type f \
+    \( -name '*.conf' -o -name '*.json' \) \
+    -exec sed -i "s|__BROWSER__|$BROWSER_CMD|g" {} + 2>/dev/null || true
 ok "Placeholders reemplazados"
 
 # ──────────────────────────────────────────────

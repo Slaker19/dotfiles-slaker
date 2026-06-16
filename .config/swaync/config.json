@@ -35,7 +35,7 @@
         { "label": "", "command": "loginctl lock-session" },
         { "label": "", "command": "ghostty" },
         { "label": "", "command": "nautilus" },
-        { "label": "", "command": "brave-origin" },
+        { "label": "", "command": "__BROWSER__" },
         { "label": "", "command": "grim -g \"$(slurp)\"" }
       ]
     }
