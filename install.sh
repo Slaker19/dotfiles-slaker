@@ -141,63 +141,8 @@ elif [[ "$GPU" = "intel" ]]; then
 fi
 
 info "Instalando paquetes oficiales..."
-sudo pacman -S --needed --noconfirm "${PACMAN_PKGS[@]}"
+sudo pacman -S --needed --noconfirm --ask 4 "${PACMAN_PKGS[@]}"
 ok "Paquetes oficiales instalados"
-
-header "PAQUETES AUR"
-
-AUR_PKGS=(
-    catppuccin-gtk-theme-mocha
-    cliphist
-    hyprswitch
-    mainstream-quickshell-git
-    hyprwat-bin
-    mpvpaper
-    brave-origin-bin
-)
-
-info "Instalando paquetes AUR..."
-$AUR_HELPER -S --needed --noconfirm "${AUR_PKGS[@]}"
-ok "Paquetes AUR instalados"
-
-header "HYPR-WALLPICKER"
-if [[ ! -f "$HOME/.config/custom_wall_paper/wallpicker" ]]; then
-    info "Clonando y compilando hypr-wallpicker..."
-    git clone https://github.com/Unixcraft-Studios/hypr-wallpicker.git /tmp/hypr-wallpicker
-    mkdir -p /tmp/hypr-wallpicker/build
-    (cd /tmp/hypr-wallpicker/build && cmake .. && make -j"$(nproc)")
-    mkdir -p "$HOME/.config/custom_wall_paper"
-    cp /tmp/hypr-wallpicker/build/wallpicker "$HOME/.config/custom_wall_paper/"
-    rm -rf /tmp/hypr-wallpicker
-    ok "hypr-wallpicker compilado"
-else
-    ok "hypr-wallpicker ya existe"
-fi
-
-header "KVANTUM CATPPUCCIN"
-KVANTUM_DST="$HOME/.config/Kvantum"
-if [[ ! -d "$KVANTUM_DST/catppuccin-mocha-mauve" ]]; then
-    info "Descargando tema Kvantum Catppuccin..."
-    git clone --depth 1 https://github.com/catppuccin/kvantum /tmp/catppuccin-kvantum
-    mkdir -p "$KVANTUM_DST"
-    cp -r /tmp/catppuccin-kvantum/themes/catppuccin-mocha-mauve "$KVANTUM_DST/"
-    rm -rf /tmp/catppuccin-kvantum
-    ok "Tema Kvantum instalado"
-else
-    ok "Tema Kvantum ya existe"
-fi
-
-cat > "$KVANTUM_DST/kvantum.kvconfig" <<< "[General]
-theme=catppuccin-mocha-mauve"
-
-header "WALLPAPERS"
-mkdir -p "$HOME/Wallpapers"
-if [[ -d "$DOTFILES_DIR/Wallpapers" ]] && [[ -z "$(ls -A "$HOME/Wallpapers" 2>/dev/null)" ]]; then
-    cp "$DOTFILES_DIR"/Wallpapers/* "$HOME/Wallpapers/"
-    ok "Wallpapers copiados a ~/Wallpapers/"
-else
-    ok "Wallpapers ya existen o no hay en el repo"
-fi
 
 header "INSTALANDO CONFIGURACIONES"
 
@@ -256,6 +201,68 @@ find "$HOME/.config" -type f \
     \( -name '*.conf' -o -name '*.rasi' -o -name '*.sh' \) \
     -exec sed -i "s|__WALLPAPER_DIR__|$WALLPAPER_DIR|g" {} + 2>/dev/null || true
 ok "Placeholders reemplazados"
+
+header "WALLPAPERS"
+mkdir -p "$HOME/Wallpapers"
+if [[ -d "$DOTFILES_DIR/Wallpapers" ]] && [[ -z "$(ls -A "$HOME/Wallpapers" 2>/dev/null)" ]]; then
+    cp "$DOTFILES_DIR"/Wallpapers/* "$HOME/Wallpapers/"
+    ok "Wallpapers copiados a ~/Wallpapers/"
+else
+    ok "Wallpapers ya existen o no hay en el repo"
+fi
+
+header "HYPR-WALLPICKER"
+if [[ ! -f "$HOME/.config/custom_wall_paper/wallpicker" ]]; then
+    info "Clonando y compilando hypr-wallpicker..."
+    git clone https://github.com/Unixcraft-Studios/hypr-wallpicker.git /tmp/hypr-wallpicker
+    mkdir -p /tmp/hypr-wallpicker/build
+    (cd /tmp/hypr-wallpicker/build && cmake .. && make -j"$(nproc)")
+    mkdir -p "$HOME/.config/custom_wall_paper"
+    cp /tmp/hypr-wallpicker/build/wallpicker "$HOME/.config/custom_wall_paper/"
+    rm -rf /tmp/hypr-wallpicker
+    ok "hypr-wallpicker compilado"
+else
+    ok "hypr-wallpicker ya existe"
+fi
+
+header "KVANTUM CATPPUCCIN"
+KVANTUM_DST="$HOME/.config/Kvantum"
+if [[ ! -d "$KVANTUM_DST/catppuccin-mocha-mauve" ]]; then
+    info "Descargando tema Kvantum Catppuccin..."
+    git clone --depth 1 https://github.com/catppuccin/kvantum /tmp/catppuccin-kvantum
+    mkdir -p "$KVANTUM_DST"
+    cp -r /tmp/catppuccin-kvantum/themes/catppuccin-mocha-mauve "$KVANTUM_DST/"
+    rm -rf /tmp/catppuccin-kvantum
+    ok "Tema Kvantum instalado"
+else
+    ok "Tema Kvantum ya existe"
+fi
+
+cat > "$KVANTUM_DST/kvantum.kvconfig" <<< "[General]
+theme=catppuccin-mocha-mauve"
+
+header "PAQUETES AUR"
+
+AUR_PKGS=(
+    catppuccin-gtk-theme-mocha
+    cliphist
+    hyprswitch
+    mainstream-quickshell-git
+    hyprwat-bin
+    mpvpaper
+    brave-origin-bin
+)
+
+info "Instalando paquetes AUR..."
+set +e
+$AUR_HELPER -S --needed --noconfirm "${AUR_PKGS[@]}"
+AUR_EXIT=$?
+set -e
+if [[ $AUR_EXIT -eq 0 ]]; then
+    ok "Paquetes AUR instalados"
+else
+    warn "Algunos paquetes AUR fallaron. Puedes instalarlos manualmente después."
+fi
 
 header "GSETTINGS"
 gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-mauve-standard+default" 2>/dev/null || true
