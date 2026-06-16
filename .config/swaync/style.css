@@ -181,7 +181,8 @@
   border: 1px solid rgba(123, 58, 237, 0.10);
   border-radius: 18px;
   padding: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.50);
+  min-width: 380px;
 }
 
 .control-center-list {
@@ -315,6 +316,21 @@
 .widget-mpris label:nth-child(3) {
   color: #a6adc8;
   font-size: 11px;
+}
+
+.widget-mpris button {
+  background: rgba(123, 58, 237, 0.10);
+  color: #cdd6f4;
+  border: none;
+  border-radius: 10px;
+  min-width: 34px;
+  min-height: 30px;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.widget-mpris button:hover {
+  background: rgba(123, 58, 237, 0.25);
 }
 
 .widget-volume {
