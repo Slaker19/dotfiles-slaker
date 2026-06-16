@@ -1,0 +1,8 @@
+{
+  "layer": "top",
+  "position": "top",
+  "spacing": 5,
+  "modules-left": ["sway/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "network", "battery", "tray"]
+}

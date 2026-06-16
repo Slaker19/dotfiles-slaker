@@ -125,12 +125,19 @@ Basado en el estilo de window management de **JaKooLit**, con theme purple/Catpp
 ## Instalación
 
 ```bash
-git clone https://github.com/Slaker19/dotfiles-slaker.git
-cd dotfiles-slaker
-./install.sh
+ git clone https://github.com/Slaker19/dotfiles-slaker.git
+ cd dotfiles-slaker
+ ./install.sh
 ```
 
-El script instala todos los paquetes (oficiales + AUR), temas, fuentes, compila hypr-wallpicker y copia las configuraciones. Después reiniciar sesión en Hyprland.
+El script instala paquetes oficiales y AUR, temas, fuentes, compila *hypr-wallpicker* y copia las configuraciones. **Mejoras recientes**:
+- Respalda (`*.bak_<timestamp>`) cualquier configuración existente antes de sobrescribirla.
+- Detecta automáticamente `paru` o `yay` como AUR helper, instalando `paru` sólo si ninguno está disponible.
+- Usa `systemctl --user` para habilitar servicios en el entorno de usuario (no requiere `sudo`).
+- Elimina llamadas a `gsettings` que no aplican a Hyprland.
+- Las rutas del repositorio y del directorio de dotfiles pueden sobrescribirse con las variables de entorno `DOTFILES_REPO` y `DOTFILES_DIR`.
+
+Después reiniciar sesión en Hyprland.
 
 ---
 

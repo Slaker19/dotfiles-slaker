@@ -1,6 +1,14 @@
-/* ---- 💫 Jakoolit-style config ---- */
-/* Entry point - loads shared fonts + theme */
+*colors {
+    background: #1e1e2e;
+    text: #cdd6f4;
+    selected: #bb86fc;
+    urgent: #7c3aed;
+}
 
-@import "~/.config/rofi/0-shared-fonts.rasi"
-
-@theme "~/.config/rofi/themes/style6.rasi"
+configuration {
+    theme: "Catppuccin-Mocha";
+    font: "JetBrains Mono Nerd Font 10";
+    lines: 15;
+    width: 30;
+    show-icons: true;
+}

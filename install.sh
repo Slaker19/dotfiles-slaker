@@ -8,8 +8,8 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 NC='\033[0m'
 
-DOTFILES_REPO="https://github.com/Slaker19/dotfiles-slaker"
-DOTFILES_DIR="$HOME/dotfiles-slaker"
+DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/Slaker19/dotfiles-slaker}"
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles-slaker}"
 
 info()  { echo -e "${CYAN}[INFO]${NC} $1"; }
 ok()    { echo -e "${VERDE}[OK]${NC}   $1"; }
@@ -31,13 +31,18 @@ DISTRO="Arch Linux"
 pacman -Qi cachyos-release &>/dev/null 2>&1 && DISTRO="CachyOS"
 info "Distribución: $DISTRO"
 
-if ! command -v paru &>/dev/null; then
+if command -v paru &>/dev/null; then
+    AUR_HELPER=paru
+elif command -v yay &>/dev/null; then
+    AUR_HELPER=yay
+else
     warn "Instalando paru (AUR helper)..."
     sudo pacman -S --needed --noconfirm base-devel git
     git clone https://aur.archlinux.org/paru.git /tmp/paru
     (cd /tmp/paru && makepkg -si --noconfirm)
     rm -rf /tmp/paru
     ok "paru instalado"
+    AUR_HELPER=paru
 fi
 
 header "DOTFILES"
@@ -127,7 +132,7 @@ AUR_PKGS=(
 )
 
 info "Instalando paquetes AUR..."
-paru -S --needed --noconfirm "${AUR_PKGS[@]}"
+${AUR_HELPER} -S --needed --noconfirm "${AUR_PKGS[@]}"
 ok "Paquetes AUR instalados"
 
 header "HYPR-WALLPICKER"
@@ -177,12 +182,21 @@ WALLPAPER_DIR="$HOME/Wallpapers"
 find "$DOTFILES_DIR" -type f \( -name '*.conf' -o -name 'hyprpaper.conf' -o -name 'exec.conf' -o -name 'keybinds.conf' \) \
   -exec sed -i "s|__WALLPAPER_DIR__|$WALLPAPER_DIR|g" {} + 2>/dev/null || true
 
+# Copy config directory with backup if it already exists
+backup_and_copy() {
+    local src="$1"
+    local dst="$2"
+    if [[ -e "$dst" ]]; then
+        cp -a "$dst" "${dst}.bak_$(date +%s)"
+    fi
+    cp -r "$src" "$dst"
+}
+
 copy_config() {
     local src="$DOTFILES_DIR/.config/$1"
     local dst="$HOME/.config/$1"
     if [[ -e "$src" ]]; then
-        rm -rf "$dst"
-        cp -r "$src" "$dst"
+        backup_and_copy "$src" "$dst"
         ok "→ .config/$1"
     fi
 }
@@ -192,6 +206,9 @@ copy_home() {
     local dst="$HOME/$1"
     if [[ -e "$src" ]]; then
         mkdir -p "$(dirname "$dst")"
+        if [[ -e "$dst" ]]; then
+            cp -a "$dst" "${dst}.bak_$(date +%s)"
+        fi
         cp -r "$src" "$dst"
         ok "→ $1"
     fi
@@ -213,16 +230,16 @@ copy_home ".local/share/color-schemes"
 cp "$DOTFILES_DIR/.config/kdeglobals" "$HOME/.config/kdeglobals"
 ok "→ .config/kdeglobals"
 
-header "GSETTINGS"
-gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-mauve-standard+default" 2>/dev/null || true
-gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark" 2>/dev/null || true
-gsettings set org.gnome.desktop.interface font-name "JetBrains Mono Nerd Font 10" 2>/dev/null || true
-gsettings set org.gnome.desktop.interface cursor-theme "capitaine-cursors" 2>/dev/null || true
-ok "gsettings actualizados"
-
+# header "GSETTINGS"
+# gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-mauve-standard+default" 2>/dev/null || true
+# gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark" 2>/dev/null || true
+# gsettings set org.gnome.desktop.interface font-name "JetBrains Mono Nerd Font 10" 2>/dev/null || true
+# gsettings set org.gnome.desktop.interface cursor-theme "capitaine-cursors" 2>/dev/null || true
+# ok "gsettings actualizados"
 header "SERVICIOS"
+
 for svc in pipewire pipewire-pulse wireplumber bluetooth NetworkManager; do
-    sudo systemctl enable --now "$svc" 2>/dev/null || warn "No se pudo habilitar $svc"
+    systemctl --user enable --now "$svc" 2>/dev/null || warn "No se pudo habilitar $svc"
 done
 ok "Servicios iniciados"
 
