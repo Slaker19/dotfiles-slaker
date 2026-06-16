@@ -1,0 +1,75 @@
+{
+  "appearance": {
+    "colorSource": "default",
+    "rounding": {
+      "unsharpen": 2,
+      "verysmall": 8,
+      "small": 12,
+      "normal": 17,
+      "large": 23,
+      "full": 9999,
+      "screenRounding": 17,
+      "windowRounding": 14
+    },
+    "font": {
+      "family": {
+        "main": "JetBrains Mono Nerd Font",
+        "title": "JetBrains Mono Nerd Font",
+        "expressive": "JetBrains Mono Nerd Font"
+      },
+      "pixelSize": {
+        "smaller": 11,
+        "small": 13,
+        "normal": 14,
+        "larger": 17,
+        "huge": 20
+      }
+    },
+    "animation": {
+      "duration": {
+        "elementMove": 400,
+        "elementMoveEnter": 300,
+        "elementMoveFast": 150
+      }
+    }
+  },
+  "overview": {
+    "rows": 2,
+    "columns": 5,
+    "scale": 0.16,
+    "enable": true,
+    "hideEmptyRows": false,
+    "closeOnFocusLoss": true,
+    "previewsEnabled": true,
+    "previewMode": "live",
+    "showSpecialWorkspaces": false,
+    "effects": {
+      "enableBackdrop": true,
+      "backdropOpacity": 0.3,
+      "panelOpacity": 0.88,
+      "workspaceOpacity": 0.82,
+      "windowOverlayOpacity": 0.2,
+      "enableBlur": true,
+      "glassMode": true,
+      "glassTintStrength": 0.2,
+      "glassBorderOpacity": 0.55,
+      "glassShineOpacity": 0.1
+    },
+    "workspaceSpacing": 6,
+    "backgroundPadding": 12,
+    "workspaceNumberBaseSize": 220
+  },
+  "position": {
+    "topMargin": 60
+  },
+  "windowPreview": {
+    "showIcons": true,
+    "iconToWindowRatio": 0.25,
+    "inactiveMonitorOpacity": 0.35,
+    "cropToFill": false
+  },
+  "hacks": {
+    "arbitraryRaceConditionDelay": 150,
+    "hyprlandEventDebounceMs": 40
+  }
+}

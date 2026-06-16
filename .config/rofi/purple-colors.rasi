@@ -1,0 +1,50 @@
+/* ---- 💫 Purple Static Palette (replaces wallust) ---- */
+* {
+    background:                 #0a0a14;
+    foreground:                 #cdd6f4;
+    background-alt:             #1a1a2e;
+    selected:                   #bb86fc;
+    active:                     #7c3aed;
+    urgent:                     #f38ba8;
+
+    border-color:               #bb86fc;
+    handle-color:               #bb86fc;
+
+    active-background:          #7c3aed;
+    active-foreground:          #cdd6f4;
+    normal-background:          #0a0a14;
+    normal-foreground:          #cdd6f4;
+    urgent-background:          #f38ba8;
+    urgent-foreground:          #0a0a14;
+
+    alternate-active-background: #6d28d9;
+    alternate-active-foreground: #cdd6f4;
+    alternate-normal-background: #0a0a14;
+    alternate-normal-foreground: #cdd6f4;
+    alternate-urgent-background: #0a0a14;
+    alternate-urgent-foreground: #cdd6f4;
+
+    selected-active-background:  #bb86fc;
+    selected-active-foreground:  #0a0a14;
+    selected-normal-background:  #bb86fc;
+    selected-normal-foreground:  #0a0a14;
+    selected-urgent-background:  #7c3aed;
+    selected-urgent-foreground:  #cdd6f4;
+
+    color0:  #1e1e2e;
+    color1:  #0a0a14;
+    color2:  #2d2d4a;
+    color3:  #6d28d9;
+    color4:  #4a1a6e;
+    color5:  #7c3aed;
+    color6:  #bb86fc;
+    color7:  #cdd6f4;
+    color8:  #585b70;
+    color9:  #1a1a2e;
+    color10: #3d3d6b;
+    color11: #7c3aed;
+    color12: #bb86fc;
+    color13: #f38ba8;
+    color14: #cba6f7;
+    color15: #cdd6f4;
+}

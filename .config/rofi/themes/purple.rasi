@@ -1,0 +1,65 @@
+* {
+    background: rgba(10, 10, 20, 0.88);
+    foreground: #cdd6f4;
+    font: "JetBrains Mono Nerd Font 12";
+    purple: #bb86fc;
+}
+
+window {
+    width: 560;
+    border-radius: 20px;
+    background-color: @background;
+    padding: 8px;
+}
+
+mainbox {
+    children: [inputbar, listview];
+    spacing: 8px;
+}
+
+inputbar {
+    padding: 8px 12px;
+    background-color: rgba(123, 58, 237, 0.05);
+    border-radius: 14px;
+    children: [entry];
+}
+
+entry {
+    padding: 8px 12px;
+    background-color: rgba(10, 10, 20, 0.5);
+    border-radius: 10px;
+    text-color: @foreground;
+    placeholder: "Buscar...";
+    placeholder-color: rgba(205, 214, 244, 0.2);
+}
+
+listview {
+    spacing: 4px;
+    padding: 4px;
+    lines: 8;
+    columns: 2;
+}
+
+element {
+    padding: 8px;
+    border-radius: 10px;
+    text-color: #a6adc8;
+}
+
+element selected {
+    background-color: rgba(123, 58, 237, 0.15);
+    text-color: @foreground;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    vertical-align: 0.5;
+}
+
+scrollbar {
+    width: 4px;
+    handle-color: @purple;
+}

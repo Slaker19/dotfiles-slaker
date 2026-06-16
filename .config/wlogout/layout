@@ -1,0 +1,36 @@
+{
+    "label" : "lock",
+    "action" : "hyprlock",
+    "text" : "LOCK",
+    "keybind" : "l"
+}
+{
+    "label" : "logout",
+    "action" : "hyprctl dispatch exit",
+    "text" : "LOGOUT",
+    "keybind" : "e"
+}
+{
+    "label" : "suspend",
+    "action" : "sudo -n systemctl suspend",
+    "text" : "SUSPEND",
+    "keybind" : "s"
+}
+{
+    "label" : "hibernate",
+    "action" : "sudo -n systemctl hibernate",
+    "text" : "HIBERNATE",
+    "keybind" : "h"
+}
+{
+    "label" : "shutdown",
+    "action" : "sudo -n systemctl poweroff",
+    "text" : "SHUTDOWN",
+    "keybind" : "u"
+}
+{
+    "label" : "reboot",
+    "action" : "sudo -n systemctl reboot",
+    "text" : "REBOOT",
+    "keybind" : "r"
+}

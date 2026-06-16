@@ -1,0 +1,433 @@
+* {
+  font-family: JetBrains Mono Nerd Font;
+  font-size: 13px;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.notification-row {
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+  background: transparent;
+}
+
+.notification-group {
+  background: rgba(18, 18, 30, 0.92);
+  border: 1px solid rgba(123, 58, 237, 0.10);
+  border-radius: 16px;
+  margin: 6px 8px;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.notification-group:hover {
+  border-color: rgba(123, 58, 237, 0.20);
+  background: rgba(18, 18, 30, 0.95);
+}
+
+.notification-group-header {
+  padding: 10px 12px 6px;
+  font-weight: bold;
+  color: #cdd6f4;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(123, 58, 237, 0.06);
+  margin: 0 4px;
+}
+
+.notification-group-header > image {
+  -gtk-icon-size: 18px;
+  margin-right: 8px;
+}
+
+.notification-group-header > label {
+  margin-left: 4px;
+}
+
+.notification-group-icon {
+  margin-right: 8px;
+}
+
+.notification {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  margin: 2px 8px;
+  padding: 8px 10px;
+  min-width: 340px;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.notification:hover {
+  background: rgba(123, 58, 237, 0.06);
+}
+
+.notification.default {
+  border-left: 3px solid rgba(123, 58, 237, 0.30);
+}
+
+.notification.critical {
+  border-left: 3px solid rgba(243, 139, 168, 0.50);
+  background: rgba(243, 139, 168, 0.04);
+}
+
+.notification.low {
+  border-left: 3px solid rgba(166, 227, 161, 0.30);
+}
+
+.notification-content {
+  background: transparent;
+  padding: 2px;
+}
+
+.notification-content > box {
+  spacing: 8px;
+}
+
+.notification-content .image {
+  margin-right: 8px;
+}
+
+.notification-content image {
+  -gtk-icon-size: 32px;
+}
+
+.notification-content .summary {
+  color: #cdd6f4;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.notification-content .body {
+  color: #a6adc8;
+  font-size: 12px;
+}
+
+.notification-content .time {
+  color: #6c7086;
+  font-size: 11px;
+  margin-left: 8px;
+}
+
+.close-button {
+  background: rgba(243, 139, 168, 0.08);
+  color: #f38ba8;
+  border: none;
+  border-radius: 20px;
+  min-width: 22px;
+  min-height: 22px;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: rgba(243, 139, 168, 0.25);
+  transform: scale(1.1);
+}
+
+.inline-reply {
+  margin-top: 6px;
+}
+
+.inline-reply entry {
+  background: rgba(26, 26, 46, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.15);
+  border-radius: 10px;
+  color: #cdd6f4;
+  padding: 6px 10px;
+  min-height: 28px;
+}
+
+.inline-reply button {
+  background: rgba(123, 58, 237, 0.15);
+  color: #bb86fc;
+  border: none;
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-weight: bold;
+  min-height: 28px;
+}
+
+.inline-reply button:hover {
+  background: rgba(123, 58, 237, 0.25);
+}
+
+.action-buttons {
+  margin-top: 6px;
+}
+
+.action-buttons button {
+  background: rgba(123, 58, 237, 0.08);
+  color: #bb86fc;
+  border: 1px solid rgba(123, 58, 237, 0.10);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 11px;
+  min-height: 24px;
+  transition: all 0.2s ease;
+}
+
+.action-buttons button:hover {
+  background: rgba(123, 58, 237, 0.18);
+  border-color: rgba(123, 58, 237, 0.20);
+}
+
+.control-center {
+  background: rgba(10, 10, 20, 0.94);
+  border: 1px solid rgba(123, 58, 237, 0.10);
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.50);
+  min-width: 380px;
+}
+
+.control-center-list {
+  background: transparent;
+  padding: 4px 0;
+}
+
+.control-center-list-placeholder {
+  color: #6c7086;
+  font-size: 13px;
+  padding: 40px;
+  opacity: 0.6;
+}
+
+.widget-buttons-grid {
+  padding: 4px;
+  margin: 2px;
+}
+
+.widget-buttons-grid > button {
+  background: rgba(123, 58, 237, 0.08);
+  color: #bb86fc;
+  border: none;
+  border-radius: 12px;
+  margin: 3px;
+  padding: 8px 6px;
+  min-width: 48px;
+  min-height: 38px;
+  font-size: 16px;
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.widget-buttons-grid > button:hover {
+  background: rgba(123, 58, 237, 0.18);
+  transform: translateY(-1px);
+}
+
+.widget-buttons-grid > button:checked {
+  background: rgba(123, 58, 237, 0.30);
+  color: #cdd6f4;
+  border: 1px solid rgba(123, 58, 237, 0.30);
+}
+
+.widget-label {
+  color: #cdd6f4;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.widget-title {
+  color: #cdd6f4;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px 12px 4px;
+  margin: 0;
+  border-bottom: 1px solid rgba(123, 58, 237, 0.06);
+}
+
+.widget-title button {
+  background: rgba(243, 139, 168, 0.08);
+  color: #f38ba8;
+  border: none;
+  border-radius: 10px;
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: bold;
+  min-height: 26px;
+  transition: all 0.2s ease;
+}
+
+.widget-title button:hover {
+  background: rgba(243, 139, 168, 0.20);
+}
+
+.widget-dnd {
+  color: #6c7086;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin: 2px 4px;
+  border-radius: 10px;
+  background: rgba(123, 58, 237, 0.04);
+}
+
+.widget-dnd > switch {
+  background: rgba(123, 58, 237, 0.15);
+  border-radius: 12px;
+  min-width: 40px;
+  min-height: 20px;
+  transition: all 0.2s ease;
+}
+
+.widget-dnd > switch:checked {
+  background: rgba(123, 58, 237, 0.40);
+}
+
+.widget-dnd > switch slider {
+  background: #bb86fc;
+  border-radius: 10px;
+  min-width: 16px;
+  min-height: 16px;
+  margin: 2px;
+  transition: all 0.2s ease;
+}
+
+.widget-mpris {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin: 4px 6px;
+}
+
+.widget-mpris > box > image {
+  border-radius: 10px;
+}
+
+.widget-mpris player-box {
+  spacing: 6px;
+}
+
+.widget-mpris label {
+  color: #cdd6f4;
+}
+
+.widget-mpris label:nth-child(2) {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.widget-mpris label:nth-child(3) {
+  color: #a6adc8;
+  font-size: 11px;
+}
+
+.widget-mpris button {
+  background: rgba(123, 58, 237, 0.10);
+  color: #cdd6f4;
+  border: none;
+  border-radius: 10px;
+  min-width: 34px;
+  min-height: 30px;
+  padding: 4px;
+  font-size: 14px;
+}
+
+.widget-mpris button:hover {
+  background: rgba(123, 58, 237, 0.25);
+}
+
+.widget-volume {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 8px 14px;
+  margin: 4px 6px;
+}
+
+.widget-volume {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 8px 14px;
+  margin: 4px 6px;
+}
+
+.widget-volume > box > label {
+  color: #bb86fc;
+  font-size: 14px;
+  margin-right: 8px;
+  min-width: 24px;
+}
+
+.widget-backlight {
+  background: rgba(18, 18, 30, 0.60);
+  border: 1px solid rgba(123, 58, 237, 0.08);
+  border-radius: 14px;
+  padding: 8px 14px;
+  margin: 4px 6px;
+}
+
+.widget-backlight > box > label {
+  color: #bb86fc;
+  font-size: 14px;
+  margin-right: 8px;
+  min-width: 24px;
+}
+
+slider {
+  background: transparent;
+  border-radius: 10px;
+}
+
+slider trough {
+  background: rgba(123, 58, 237, 0.12);
+  border-radius: 10px;
+  min-height: 4px;
+  min-width: 100px;
+}
+
+slider highlight {
+  background: linear-gradient(to right, #7c3aed, #bb86fc);
+  border-radius: 10px;
+}
+
+slider slider {
+  background: #bb86fc;
+  border: 2px solid rgba(10, 10, 20, 0.80);
+  border-radius: 12px;
+  min-width: 14px;
+  min-height: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.30);
+  transition: all 0.15s ease;
+}
+
+slider slider:hover {
+  transform: scale(1.15);
+  background: #cba6f7;
+}
+
+scrollbar {
+  background: transparent;
+  min-width: 6px;
+}
+
+scrollbar slider {
+  background: rgba(123, 58, 237, 0.20);
+  border-radius: 4px;
+  min-width: 4px;
+}
+
+scrollbar slider:hover {
+  background: rgba(123, 58, 237, 0.35);
+}
+
+.control-center .notification-group .notification-group-collapse-button {
+  background: transparent;
+  color: #6c7086;
+  border: none;
+  border-radius: 8px;
+  padding: 2px 6px;
+  margin: 0 4px;
+}
+
+.control-center .notification-group .notification-group-collapse-button:hover {
+  background: rgba(123, 58, 237, 0.10);
+  color: #cdd6f4;
+}
