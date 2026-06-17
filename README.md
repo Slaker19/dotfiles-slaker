@@ -17,13 +17,13 @@ Basado en el estilo de window management de **JaKooLit**, con theme purple/Catpp
 | `Win + F` | Fullscreen |
 | `Win + Shift + F` | Fullscreen |
 | `Win + Ctrl + F` | Maximizar |
-| `Win + B` | Navegador (Brave|ZenBrowser|Firefox) |
+| `Win + B` | Navegador (Brave ZenBrowser Firefox) |
 | `Win + E` | Gestor de archivos (Nautilus) |
 | `Win + Backspace` | Bloquear pantalla |
 | `Win + Shift + L` | Bloquear pantalla |
 | `Win + Shift + Escape` | Menú de salida (Wlogout) |
 
-### Window management (estilo JaKooLit)
+### Window management (estilo JaKooLit) 
 
 | Atajo | Función |
 |-------|---------|
