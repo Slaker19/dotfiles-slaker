@@ -17,7 +17,7 @@ Basado en el estilo de window management de **JaKooLit**, con theme purple/Catpp
 | `Win + F` | Fullscreen |
 | `Win + Shift + F` | Fullscreen |
 | `Win + Ctrl + F` | Maximizar |
-| `Win + B` | Navegador (Brave) |
+| `Win + B` | Navegador (Brave|ZenBrowser|Firefox) |
 | `Win + E` | Gestor de archivos (Nautilus) |
 | `Win + Backspace` | Bloquear pantalla |
 | `Win + Shift + L` | Bloquear pantalla |
@@ -29,13 +29,9 @@ Basado en el estilo de window management de **JaKooLit**, con theme purple/Catpp
 |-------|---------|
 | `Win + Space` | Alternar float/tile (800×600 centrado) |
 | `Win + Alt + Space` | Forzar float a todas las ventanas |
-| `Win + H/J/K/L` | Mover foco (← ↓ ↑ →) |
 | `Win + flechas` | Mover foco |
-| `Win + Ctrl + H/J/K/L` | Mover ventana |
 | `Win + Ctrl + flechas` | Mover ventana |
-| `Win + Shift + H/J/K/L` | Redimensionar ventana |
 | `Win + Shift + flechas` | Redimensionar ventana |
-| `Win + Alt + H/J/K/L` | Intercambiar ventanas |
 | `Win + Alt + flechas` | Intercambiar ventanas |
 | `Win + G` | Toggle group |
 | `Win + P` | Pseudo-tile |
